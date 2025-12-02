@@ -17,8 +17,8 @@ export const trainingPlans = sqliteTable(
 		description: text('description'),
 		isActive: integer('is_active', { mode: 'boolean' }).notNull(),
 		durationWeeks: integer('duration_weeks').notNull(),
-		startDate: text('start_date'),
-		endDate: text('end_date'),
+		startDate: integer('start_date', { mode: 'timestamp' }).notNull(),
+		endDate: integer('end_date', { mode: 'timestamp' }),
 		userId: integer('user_id').notNull()
 	},
 	table => ({
@@ -44,7 +44,7 @@ export const workouts = sqliteTable(
 		name: text('name').notNull(),
 		date: text('date').notNull(),
 		isCompleted: integer('is_completed', { mode: 'boolean' }).notNull(),
-		dateCompleted: text('date_completed'),
+		dateCompleted: integer('date_completed', { mode: 'timestamp' }),
 		estimatedDurationMin: integer('estimated_duration_min'),
 		trainingPlanId: integer('training_plan_id')
 			.notNull()
@@ -83,7 +83,7 @@ export const workoutItems = sqliteTable(
 		reps: integer('reps'),
 		weight: real('weight'),
 		isCompleted: integer('is_completed', { mode: 'boolean' }).notNull(),
-		dateCompleted: text('date_completed'),
+		dateCompleted: integer('date_completed', { mode: 'timestamp' }),
 		workoutId: integer('workout_id')
 			.notNull()
 			.references(() => workouts.id, { onDelete: 'cascade' })

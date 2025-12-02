@@ -20,7 +20,7 @@ export const createTrainingPlan = async (
 			description: data.description ?? null,
 			isActive: data.isActive,
 			durationWeeks: data.durationWeeks,
-			startDate: data.startDate ?? null,
+			startDate: data.startDate,
 			endDate: data.endDate ?? null,
 			userId: data.userId
 		})
@@ -30,7 +30,7 @@ export const createTrainingPlan = async (
 		...result,
 		isActive: Boolean(result.isActive),
 		description: result.description ?? undefined,
-		startDate: result.startDate ?? undefined,
+		startDate: result.startDate,
 		endDate: result.endDate ?? undefined
 	};
 };
@@ -49,7 +49,7 @@ export const findTrainingPlanById = async (
 		...result,
 		isActive: Boolean(result.isActive),
 		description: result.description ?? undefined,
-		startDate: result.startDate ?? undefined,
+		startDate: result.startDate,
 		endDate: result.endDate ?? undefined
 	};
 };
@@ -61,7 +61,7 @@ export const findAllTrainingPlans = async (): Promise<TrainingPlan[]> => {
 		...result,
 		isActive: Boolean(result.isActive),
 		description: result.description ?? undefined,
-		startDate: result.startDate ?? undefined,
+		startDate: result.startDate,
 		endDate: result.endDate ?? undefined
 	}));
 };
@@ -78,7 +78,7 @@ export const findTrainingPlansByUserId = async (
 		...result,
 		isActive: Boolean(result.isActive),
 		description: result.description ?? undefined,
-		startDate: result.startDate ?? undefined,
+		startDate: result.startDate,
 		endDate: result.endDate ?? undefined
 	}));
 };
@@ -111,7 +111,7 @@ export const updateTrainingPlan = async (
 		...result,
 		isActive: Boolean(result.isActive),
 		description: result.description ?? undefined,
-		startDate: result.startDate ?? undefined,
+		startDate: result.startDate,
 		endDate: result.endDate ?? undefined
 	};
 };
