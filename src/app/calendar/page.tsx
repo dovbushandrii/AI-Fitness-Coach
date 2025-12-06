@@ -1,7 +1,9 @@
 import React, { Suspense } from 'react';
 
-import { CalendarSkeleton } from '@/components/calendar/calendar-skeleton';
-import { WorkoutCalendarWrapper } from '@/components/calendar/workout-calendar-wrapper';
+import {
+	CalendarSkeleton,
+	WorkoutCalendarWrapper
+} from '@/components/calendar';
 
 const TrainingCalendarPage = async () => (
 	<div className="min-h-screen bg-white p-4 font-sans text-slate-900 md:p-8">
