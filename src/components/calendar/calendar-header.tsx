@@ -13,15 +13,15 @@ export const CalendarHeader = ({
 	currentDate,
 	view,
 	onNext,
-	onPrev,
-	onToday,
+	onPrevious,
+	setToday,
 	onViewChange
 }: {
 	currentDate: Date;
 	view: 'month' | 'week';
 	onNext: () => void;
-	onPrev: () => void;
-	onToday: () => void;
+	onPrevious: () => void;
+	setToday: () => void;
 	onViewChange: (v: 'month' | 'week') => void;
 }) => (
 	<div className="mb-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
@@ -55,7 +55,7 @@ export const CalendarHeader = ({
 			</div>
 
 			<div className="flex items-center gap-1">
-				<Button variant="outline" size="icon" onClick={onPrev}>
+				<Button variant="outline" size="icon" onClick={onPrevious}>
 					<ChevronLeft className="h-4 w-4" />
 				</Button>
 				<div className="w-32 text-center font-semibold text-slate-700 select-none">
@@ -70,7 +70,7 @@ export const CalendarHeader = ({
 				<Button
 					variant="ghost"
 					size="sm"
-					onClick={onToday}
+					onClick={setToday}
 					className="ml-1 text-xs"
 				>
 					Today
