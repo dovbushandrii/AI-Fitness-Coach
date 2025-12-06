@@ -41,3 +41,35 @@ export const signOutAction = async () => {
 	});
 	redirect('/');
 };
+
+export const getLoggedInUser = async () => {
+	const hdrs = await headers();
+
+	const { data, error } = await auth.api.getSession({
+		headers: hdrs
+	});
+
+	if (error || !data?.user) {
+		return null;
+	}
+
+	return {
+		id: data.user.id,
+		email: data.user.email,
+		name: data.user.name
+	};
+};
+
+export const getLoggedInUserId = async () => {
+	const hdrs = await headers();
+
+	const { data, error } = await auth.api.getSession({
+		headers: hdrs
+	});
+
+	if (error || !data?.user) {
+		return null;
+	}
+
+	return data.user.id;
+};
