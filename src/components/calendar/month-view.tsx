@@ -16,12 +16,10 @@ import { CalendarDay } from '@/components/calendar/calendar-day';
 
 export const MonthView = ({
 	currentDate,
-	workouts,
-	onWorkoutClick
+	workouts
 }: {
 	currentDate: Date;
 	workouts: Workout[];
-	onWorkoutClick: (id: number) => void;
 }) => {
 	const monthStart = startOfMonth(currentDate);
 	const monthEnd = endOfMonth(monthStart);
@@ -49,7 +47,7 @@ export const MonthView = ({
 
 			{/* Calendar Grid */}
 			<div className="grid auto-rows-fr grid-cols-7">
-				{calendarDays.map((dayItem, idx) => {
+				{calendarDays.map(dayItem => {
 					// Filter workouts for this specific day
 					const daysWorkouts = workouts.filter(w =>
 						isSameDay(parseISO(w.date), dayItem)
@@ -62,7 +60,6 @@ export const MonthView = ({
 							workouts={daysWorkouts}
 							isCurrentMonth={isSameMonth(dayItem, monthStart)}
 							isTodayDate={isToday(dayItem)}
-							onWorkoutClick={onWorkoutClick}
 						/>
 					);
 				})}

@@ -9,18 +9,17 @@ import {
 	parseISO,
 	startOfWeek
 } from 'date-fns';
+import Link from 'next/link';
 
 import { Badge } from '@/components/common';
 import { type Workout } from '@/modules/training-plan/schema';
 
 export const WeekView = ({
 	currentDate,
-	workouts,
-	onWorkoutClick
+	workouts
 }: {
 	currentDate: Date;
 	workouts: Workout[];
-	onWorkoutClick: (id: number) => void;
 }) => {
 	const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
 	const weekEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
@@ -69,9 +68,9 @@ export const WeekView = ({
 									</div>
 								) : (
 									daysWorkouts.map(workout => (
-										<div
+										<Link
 											key={workout.id}
-											onClick={() => onWorkoutClick(workout.id)}
+											href={`/calendar/workout/${workout.id}`}
 											className="flex cursor-pointer items-center justify-between rounded-lg border border-slate-100 bg-white p-3 shadow-sm transition-shadow hover:border-indigo-200 hover:shadow-md"
 										>
 											<div className="flex items-center gap-3">
@@ -104,7 +103,7 @@ export const WeekView = ({
 											</div>
 											{/* Navigation indicator or action could go here */}
 											<ChevronRight className="h-4 w-4 text-slate-300" />
-										</div>
+										</Link>
 									))
 								)}
 							</div>

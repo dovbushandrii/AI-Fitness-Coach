@@ -12,9 +12,7 @@ type WorkoutCalendarProps = {
 	initialWorkouts: Workout[];
 };
 
-export const WorkoutCalendar = ({
-	initialWorkouts
-}: WorkoutCalendarProps) => {
+export const WorkoutCalendar = ({ initialWorkouts }: WorkoutCalendarProps) => {
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [view, setView] = useState<'month' | 'week'>('month');
 
@@ -40,11 +38,6 @@ export const WorkoutCalendar = ({
 		setCurrentDate(new Date());
 	};
 
-	const handleWorkoutClick = (id: number) => {
-		console.log(`Navigating to workout ${id}...`);
-		// TODO: navigate to a workout!
-	};
-
 	return (
 		<div>
 			<CalendarHeader
@@ -57,17 +50,9 @@ export const WorkoutCalendar = ({
 			/>
 
 			{view === 'month' ? (
-				<MonthView
-					currentDate={currentDate}
-					workouts={workouts}
-					onWorkoutClick={handleWorkoutClick}
-				/>
+				<MonthView currentDate={currentDate} workouts={workouts} />
 			) : (
-				<WeekView
-					currentDate={currentDate}
-					workouts={workouts}
-					onWorkoutClick={handleWorkoutClick}
-				/>
+				<WeekView currentDate={currentDate} workouts={workouts} />
 			)}
 		</div>
 	);
