@@ -9,9 +9,6 @@ type WorkoutPageProps = {
 };
 
 const WorkoutPage = async ({ params }: WorkoutPageProps) => {
-	// Await params if using Next.js 15, safe to do in 14 as well if it's a promise
-	// but strictly speaking in 14 params is an object.
-	// We'll treat it as an object based on standard 14 usage, but fetch logic is async.
 	const { id } = await params;
 	const workoutId = parseInt(id);
 
