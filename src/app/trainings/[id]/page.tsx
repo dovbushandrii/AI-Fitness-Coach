@@ -1,36 +1,52 @@
 "use client";
-import { WeekSeparator } from '@/components/trainings/week-separator';
 import { usePathname } from 'next/navigation';
-import { findTrainingPlanById } from '@/modules/training-plan/server';
+import { findTrainingPlanById, findWorkoutsByTrainingPlanId } from '@/modules/training-plan/server';
 import { useEffect, useState } from 'react';
-import { TrainingPlan } from '@/modules/training-plan/schema';
+import { TrainingPlan, Workout } from '@/modules/training-plan/schema';
+import { WorkoutListItem } from '@/components/trainings/workout-list-item';
 
 const Page = () => {
 	const path = usePathname();
 	const [plan, setPlan] = useState<TrainingPlan>();
+	const [workouts, setWorkouts] = useState<Workout[]>([]);
 
 	useEffect(() => {
 		const segments = path.split('/');
 		const idString = segments[2];
 		const planId = parseInt(idString);
 		if (isNaN(planId)) {
-			throw Error("Invalid planId found in path:", segments[2]);
+			throw Error("Invalid planId found in path:" + path);
 		}
 
-		// 1. Fetch the data
 		findTrainingPlanById(planId)
 			.then((value: TrainingPlan | null) => {
-				if (value === null) { throw Error('Invalid planId found in path:", segments[2]); ')}
+				if (value === null) { throw Error('Invalid planId found in path')}
 				setPlan(value);
+				console.log(value)
 			})
 			.catch(error => {
 				throw Error(error);
 			});
+
+		findWorkoutsByTrainingPlanId(planId).then((value: Workout[]) => {
+			setWorkouts(value);
+		})
+
+
 	}, []);
+
 	return (
 		<>
-			<h1 style={{ textAlign: 'center' }}>Training: </h1>
-			<WeekSeparator label="Week 1" />
+			<h2 className="mb-8 text-2xl font-bold">Training: {plan?.name}</h2>
+			{workouts.map((workout) => (
+				<WorkoutListItem
+					key={workout.id}
+					workout={workout}
+					stats={{
+						exerciseCount: 6
+					}}
+				/>
+			))}
 		</>
 	);
 };
