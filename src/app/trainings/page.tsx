@@ -9,8 +9,11 @@ import {
 import { WorkoutItemTile } from '@/components/trainings/workout-item-tile';
 import { WeekSeparator } from '@/components/trainings/week-separator';
 import { WorkoutListItem } from '@/components/trainings/workout-list-item';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { findTrainingPlansByUserId } from '@/modules/training-plan/server';
 
-const Page = () => {
+const Page = async () => {
 	const mockedPlan: TrainingPlan = {
 		id: 1,
 		name: 'Summer Shred 2024',
@@ -89,6 +92,14 @@ const Page = () => {
 		}
 	];
 
+	const session = await auth.api.getSession({
+		headers: await headers()
+	});
+	console.log(session);
+
+	const usersPlans = await findTrainingPlansByUserId(1);
+	console.log(usersPlans);
+
 	return (
 		<>
 			<div className="mb-6 flex items-center justify-between">
@@ -99,13 +110,20 @@ const Page = () => {
 					</div>
 				</Link>
 			</div>
-			<TrainingPlanCard
-				plan={mockedPlan}
-				stats={{
-					completedWorkouts: 1,
-					totalWorkoutsInPlan: 8
-				}}
-			/>
+			{usersPlans.map((planData) => {
+				const stats = {
+					completedWorkouts: 4, // Assuming this data is in the plan object
+					totalWorkoutsInPlan: 10,   // Assuming this data is in the plan object
+				};
+
+				return (
+					<TrainingPlanCard
+						key={planData.id} // IMPORTANT: Every element in a list needs a unique 'key' prop
+						plan={planData}
+						stats={stats}
+					/>
+				);
+			})}
 			<WeekSeparator label="Week 1" />
 			<WorkoutListItem
 				workout={sampleWorkoutSummary}

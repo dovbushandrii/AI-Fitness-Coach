@@ -2,6 +2,7 @@ import React from 'react';
 import { differenceInCalendarWeeks } from 'date-fns';
 
 import { type TrainingPlan } from '@/modules/training-plan/schema';
+import Link from 'next/link';
 
 type TrainingPlanCardProps = {
 	plan: TrainingPlan;
@@ -36,22 +37,28 @@ export const TrainingPlanCard: React.FC<TrainingPlanCardProps> = ({
 
 	return (
 		<div
-			className={`relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-[#5b73e8] to-[#7b52b9] p-6 text-white shadow-lg ${className} `}
+			className={`relative w-full overflow-hidden rounded-2xl 
+    bg-gradient-to-r from-[#5b73e8] to-[#7b52b9] 
+    hover:from-yellow-400 hover:to-yellow-400 hover:text-black
+    transition duration-300
+    p-6 text-white shadow-lg mb-8 ${className} `}
 		>
-			<h3 className="mb-2 text-2xl font-bold tracking-tight">{plan.name}</h3>
+			<Link className="hover:bg-sky-700" href={`/trainings/${plan.id}`}>
+				<h3 className="mb-2 text-2xl font-bold tracking-tight">{plan.name}</h3>
 
-			<div className="mb-4 flex flex-wrap items-center gap-2 text-sm font-medium opacity-90">
-				<span>{plan.description ?? 'General Fitness'}</span>
-				<span>•</span>
-				<span>{plan.durationWeeks} weeks</span>
-				<span>•</span>
-				<span>{frequencyPerWeek} days/week</span>
-			</div>
+				<div className="mb-4 flex flex-wrap items-center gap-2 text-sm font-medium opacity-90">
+					<span>{plan.description ?? 'General Fitness'}</span>
+					<span>•</span>
+					<span>{plan.durationWeeks} weeks</span>
+					<span>•</span>
+					<span>{frequencyPerWeek} days/week</span>
+				</div>
 
-			<div className="text-sm font-normal opacity-80">
-				Week {currentWeek} of {plan.durationWeeks}: {stats.completedWorkouts}{' '}
-				workouts completed
-			</div>
+				<div className="text-sm font-normal opacity-80">
+					Week {currentWeek} of {plan.durationWeeks}: {stats.completedWorkouts}{' '}
+					workouts completed
+				</div>
+			</Link>
 		</div>
 	);
 };
