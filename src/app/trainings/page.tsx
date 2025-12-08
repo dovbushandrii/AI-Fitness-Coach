@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import { TrainingPlanCard } from '@/components/trainings/training-plan-card';
-import { WeekSeparator } from '@/components/trainings/week-separator';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { findTrainingPlansByUserId } from '@/modules/training-plan/server';
@@ -10,11 +9,8 @@ const Page = async () => {
 	const session = await auth.api.getSession({
 		headers: await headers()
 	});
-	console.log(session);
-
+	const userId = session?.user?.id; // TODO find plans by logged user
 	const usersPlans = await findTrainingPlansByUserId(1);
-	console.log(usersPlans);
-
 	return (
 		<>
 			<div className="mb-6 flex items-center justify-between">
@@ -25,21 +21,11 @@ const Page = async () => {
 					</div>
 				</Link>
 			</div>
-			{usersPlans.map((planData) => {
-				const stats = {
-					completedWorkouts: 4,
-					totalWorkoutsInPlan: 10,
-				};
-
-				return (
+			{usersPlans.map((planData) =>
 					<TrainingPlanCard
-						key={planData.id}
-						plan={planData}
-						stats={stats}
+						key={planData.id} plan={planData}
 					/>
-				);
-			})}
-			<WeekSeparator label="Week 1" />
+			)}
 		</>
 	);
 };

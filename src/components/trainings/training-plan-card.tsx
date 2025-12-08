@@ -1,26 +1,21 @@
-import React from 'react';
-import { differenceInCalendarWeeks } from 'date-fns';
+'use client';
+import React, { useEffect, useState } from 'react';
 
-import { type TrainingPlan } from '@/modules/training-plan/schema';
+import { type TrainingPlan, Workout } from '@/modules/training-plan/schema';
 import Link from 'next/link';
+import { findWorkoutsByTrainingPlanId } from '@/modules/training-plan/server';
+import { differenceInCalendarWeeks } from 'date-fns';
 
 type TrainingPlanCardProps = {
 	plan: TrainingPlan;
-	stats: {
-		completedWorkouts: number;
-		totalWorkoutsInPlan: number;
-	};
 	className?: string;
 };
 
 export const TrainingPlanCard: React.FC<TrainingPlanCardProps> = ({
 	plan,
-	stats,
 	className = ''
 }) => {
-	const frequencyPerWeek = Math.round(
-		stats.totalWorkoutsInPlan / plan.durationWeeks
-	);
+	const [workouts, setWorkouts] = useState<Workout[]>([]);
 
 	const calculateCurrentWeek = () => {
 		const start = new Date(plan.startDate);
@@ -33,15 +28,17 @@ export const TrainingPlanCard: React.FC<TrainingPlanCardProps> = ({
 		return Math.min(weekDiff, plan.durationWeeks);
 	};
 
+	useEffect(() => {
+		findWorkoutsByTrainingPlanId(plan.id).then((value: Workout[]) => {
+			setWorkouts(value);
+		});
+	}, []);
 	const currentWeek = calculateCurrentWeek();
-
+	const completed = workouts.filter(value => value.isCompleted);
+	const workoutsPerWeek = workouts.length / plan?.durationWeeks!;
 	return (
 		<div
-			className={`relative w-full overflow-hidden rounded-2xl 
-    bg-gradient-to-r from-[#5b73e8] to-[#7b52b9] 
-    hover:from-yellow-400 hover:to-yellow-400 hover:text-black
-    transition duration-300
-    p-6 text-white shadow-lg mb-8 ${className} `}
+			className={`relative mb-8 w-full overflow-hidden rounded-2xl bg-gradient-to-r from-[#5b73e8] to-[#7b52b9] p-6 text-white shadow-lg transition duration-300 hover:from-yellow-400 hover:to-yellow-400 hover:text-black ${className} `}
 		>
 			<Link className="hover:bg-sky-700" href={`/trainings/${plan.id}`}>
 				<h3 className="mb-2 text-2xl font-bold tracking-tight">{plan.name}</h3>
@@ -51,12 +48,12 @@ export const TrainingPlanCard: React.FC<TrainingPlanCardProps> = ({
 					<span>•</span>
 					<span>{plan.durationWeeks} weeks</span>
 					<span>•</span>
-					<span>{frequencyPerWeek} days/week</span>
+					<span>{workoutsPerWeek} days/week</span>
 				</div>
 
 				<div className="text-sm font-normal opacity-80">
-					Week {currentWeek} of {plan.durationWeeks}: {stats.completedWorkouts}{' '}
-					workouts completed
+					Week {currentWeek} of {plan.durationWeeks}: {completed.length} of{' '}
+					{workouts.length} workouts completed
 				</div>
 			</Link>
 		</div>

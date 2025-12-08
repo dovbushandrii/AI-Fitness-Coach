@@ -1,45 +1,34 @@
 import React from 'react';
 
 import { type Workout } from '@/modules/training-plan/schema';
+import ExerciseCount from '@/components/trainings/exercise-count';
 
 type WorkoutListItemProps = {
 	workout: Workout;
-	stats: {
-		exerciseCount: number;
-		// You could also add actualDurationMin here if calculated
-	};
-	/** Optional click handler for when the user interacts with the workout item */
-	onClick?: () => void;
 };
 
 export const WorkoutListItem: React.FC<WorkoutListItemProps> = ({
-	workout,
-	stats,
-	onClick
+	workout
 }) => {
-	const { name, isCompleted, estimatedDurationMin } = workout;
-	const { exerciseCount } = stats;
-
-	// Determine the styling for the completion status and the left border
+	const { name, isCompleted } = workout;
 	const statusText = isCompleted ? 'Completed' : 'Pending';
 	const statusColor = isCompleted ? 'text-green-600' : 'text-gray-500';
 	const borderColor = isCompleted ? 'border-green-500' : 'border-indigo-400';
-	const cursorStyle = onClick ? 'cursor-pointer hover:bg-gray-50' : '';
 
 	return (
 		<div
-			className={`flex items-center justify-between rounded-lg border-l-4 bg-white p-4 shadow-sm ${borderColor} transition-shadow duration-200 hover:shadow-md ${cursorStyle} `}
-			role={onClick ? 'button' : undefined}
+			className={`flex items-center justify-between rounded-lg border-l-4 bg-white p-4 shadow-sm ${borderColor} my-2 transition-shadow duration-200 hover:shadow-md`}
+			role="button"
 		>
-			{/* Left Section: Name and Details */}
 			<div>
 				<h3 className="text-lg font-semibold text-gray-800">{name}</h3>
-				<p className="mt-0.5 text-sm text-gray-500">
-					{exerciseCount} exercises &bull; {estimatedDurationMin || '--'} min
-				</p>
+				<ExerciseCount
+					key={workout.id}
+					workoutId={workout.id}
+					duration={workout.estimatedDurationMin!}
+				/>
 			</div>
 
-			{/* Right Section: Status */}
 			<div className="flex items-center">
 				{isCompleted && (
 					<svg
