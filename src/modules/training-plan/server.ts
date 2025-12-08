@@ -1,5 +1,7 @@
 'use server';
 
+import { randomUUID } from 'node:crypto';
+
 import { eq } from 'drizzle-orm';
 
 import {
@@ -16,6 +18,7 @@ export const createTrainingPlan = async (
 	const [result] = await db
 		.insert(trainingPlans)
 		.values({
+			id: randomUUID(),
 			name: data.name,
 			description: data.description ?? null,
 			isActive: data.isActive,
@@ -36,7 +39,7 @@ export const createTrainingPlan = async (
 };
 
 export const findTrainingPlanById = async (
-	id: number
+	id: string
 ): Promise<TrainingPlan | null> => {
 	const [result] = await db
 		.select()
@@ -67,7 +70,7 @@ export const findAllTrainingPlans = async (): Promise<TrainingPlan[]> => {
 };
 
 export const findTrainingPlansByUserId = async (
-	userId: number
+	userId: string
 ): Promise<TrainingPlan[]> => {
 	const results = await db
 		.select()
@@ -84,7 +87,7 @@ export const findTrainingPlansByUserId = async (
 };
 
 export const updateTrainingPlan = async (
-	id: number,
+	id: string,
 	data: Partial<Omit<TrainingPlan, 'id' | 'userId'>>
 ): Promise<TrainingPlan | null> => {
 	const updateData: any = {};
@@ -116,7 +119,7 @@ export const updateTrainingPlan = async (
 	};
 };
 
-export const deleteTrainingPlanById = async (id: number): Promise<boolean> => {
+export const deleteTrainingPlanById = async (id: string): Promise<boolean> => {
 	const result = await db
 		.delete(trainingPlans)
 		.where(eq(trainingPlans.id, id))
@@ -131,6 +134,7 @@ export const createWorkout = async (
 	const [result] = await db
 		.insert(workouts)
 		.values({
+			id: randomUUID(),
 			name: data.name,
 			date: data.date,
 			isCompleted: data.isCompleted,
@@ -149,7 +153,7 @@ export const createWorkout = async (
 	};
 };
 
-export const findWorkoutById = async (id: number): Promise<Workout | null> => {
+export const findWorkoutById = async (id: string): Promise<Workout | null> => {
 	const [result] = await db.select().from(workouts).where(eq(workouts.id, id));
 
 	if (!result) return null;
@@ -174,7 +178,7 @@ export const findAllWorkouts = async (): Promise<Workout[]> => {
 };
 
 export const findWorkoutsByTrainingPlanId = async (
-	trainingPlanId: number
+	trainingPlanId: string
 ): Promise<Workout[]> => {
 	const results = await db
 		.select()
@@ -190,7 +194,7 @@ export const findWorkoutsByTrainingPlanId = async (
 };
 
 export const findWorkoutsByUserId = async (
-	userId: number
+	userId: string
 ): Promise<Workout[]> => {
 	const results = await db
 		.select()
@@ -206,7 +210,7 @@ export const findWorkoutsByUserId = async (
 };
 
 export const updateWorkout = async (
-	id: number,
+	id: string,
 	data: Partial<Omit<Workout, 'id' | 'trainingPlanId' | 'userId'>>
 ): Promise<Workout | null> => {
 	const updateData: any = {};
@@ -235,7 +239,7 @@ export const updateWorkout = async (
 	};
 };
 
-export const deleteWorkoutById = async (id: number): Promise<boolean> => {
+export const deleteWorkoutById = async (id: string): Promise<boolean> => {
 	const result = await db
 		.delete(workouts)
 		.where(eq(workouts.id, id))
@@ -250,6 +254,7 @@ export const createWorkoutItem = async (
 	const [result] = await db
 		.insert(workoutItems)
 		.values({
+			id: randomUUID(),
 			name: data.name,
 			type: data.type,
 			sets: data.sets,
@@ -274,7 +279,7 @@ export const createWorkoutItem = async (
 };
 
 export const findWorkoutItemById = async (
-	id: number
+	id: string
 ): Promise<WorkoutItem | null> => {
 	const [result] = await db
 		.select()
@@ -309,7 +314,7 @@ export const findAllWorkoutItems = async (): Promise<WorkoutItem[]> => {
 };
 
 export const findWorkoutItemsByWorkoutId = async (
-	workoutId: number
+	workoutId: string
 ): Promise<WorkoutItem[]> => {
 	const results = await db
 		.select()
@@ -327,8 +332,19 @@ export const findWorkoutItemsByWorkoutId = async (
 	}));
 };
 
+export const updateWorkoutItems = async (
+	items: WorkoutItem[]
+): Promise<(WorkoutItem | null)[]> => {
+	const updates = items.map(item => {
+		const { id, workoutId, ...data } = item;
+		return updateWorkoutItem(id, data);
+	});
+
+	return Promise.all(updates);
+};
+
 export const updateWorkoutItem = async (
-	id: number,
+	id: string,
 	data: Partial<Omit<WorkoutItem, 'id' | 'workoutId'>>
 ): Promise<WorkoutItem | null> => {
 	const updateData: any = {};
@@ -362,7 +378,7 @@ export const updateWorkoutItem = async (
 	};
 };
 
-export const deleteWorkoutItemById = async (id: number): Promise<boolean> => {
+export const deleteWorkoutItemById = async (id: string): Promise<boolean> => {
 	const result = await db
 		.delete(workoutItems)
 		.where(eq(workoutItems.id, id))

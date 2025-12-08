@@ -7,7 +7,6 @@ import {
 	createWorkout,
 	createWorkoutItem
 } from '@/modules/training-plan/server';
-
 import { type TrainingPlanFormValues } from '@/app/(app)/trainings/new/page';
 
 const client = new OpenAI({
@@ -37,7 +36,10 @@ type GeneratedPlan = {
 
 const parseWorkoutsPerWeek = (value: string): number => parseInt(value);
 
-export const generateTrainingPlan = async (values: TrainingPlanFormValues) => {
+export const generateTrainingPlan = async (
+	values: TrainingPlanFormValues,
+	userId: string
+) => {
 	const workoutsPerWeek = parseWorkoutsPerWeek(values.workoutsPerWeek);
 
 	const systemPrompt = `
@@ -123,7 +125,7 @@ Name the plan and workouts realistically.
 			description: data.plan.description,
 			durationWeeks: data.plan.durationWeeks,
 			isActive: true,
-			userId: 1, //TODO: Replace with real user ID
+			userId,
 			startDate: new Date(),
 			endDate: undefined
 		});
@@ -131,7 +133,7 @@ Name the plan and workouts realistically.
 		for (const workout of data.workouts) {
 			const createdWorkout = await createWorkout({
 				name: workout.name,
-				date: new Date().toISOString(),
+				date: new Date(),
 				isCompleted: false,
 				estimatedDurationMin: workout.estimatedDurationMin,
 				trainingPlanId: trainingPlan.id,
