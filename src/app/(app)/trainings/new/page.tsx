@@ -18,13 +18,7 @@ export type TrainingPlanFormValues = {
 	name: string;
 	goal: 'fat-burning' | 'muscle-gain' | 'endurance';
 	experience: 'Beginner' | 'Intermediate' | 'Advanced';
-	workoutsPerWeek:
-		| '2 days'
-		| '3 days'
-		| '4 days'
-		| '5 days'
-		| '6 days'
-		| '7 days';
+	workoutsPerWeek: '3 days' | '4 days' | '5 days' | '6 days' | '7 days';
 	duration: number;
 	equipment: string[];
 	notes: string;

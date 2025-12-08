@@ -159,12 +159,12 @@ Name the plan and workouts realistically.
 			success: true,
 			raw: content
 		};
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error('OpenAI training plan error:', error);
 
 		return {
 			success: false,
-			error: error.message ?? 'Failed to generate plan'
+			error: error instanceof Error ? error.message : 'Failed to generate plan'
 		};
 	}
 };
