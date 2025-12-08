@@ -6,10 +6,10 @@ import {
 	findWorkoutById,
 	findWorkoutItemsByWorkoutId
 } from '@/modules/training-plan/server';
-import { getLoggedInUserId } from '@/modules/user/server';
+import { getLoggedInUserId } from '@/app/actions/auth';
 
 type WorkoutDetailWrapperProps = {
-	workoutId: number;
+	workoutId: string;
 };
 
 export const WorkoutDetailWrapper = async ({

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const TrainingPlanSchema = z.object({
-	id: z.number(),
+	id: z.string().uuid(),
 	name: z.string(),
 	description: z.string().optional(),
 	isActive: z.boolean(),
@@ -15,12 +15,12 @@ export const TrainingPlanSchema = z.object({
 		.datetime()
 		.transform(val => (val ? new Date(val) : undefined))
 		.nullish(),
-	userId: z.number()
+	userId: z.string().uuid()
 });
 export type TrainingPlan = z.infer<typeof TrainingPlanSchema>;
 
 export const WorkoutSchema = z.object({
-	id: z.number(),
+	id: z.string().uuid(),
 	name: z.string(),
 	date: z
 		.string()
@@ -33,13 +33,13 @@ export const WorkoutSchema = z.object({
 		.transform(val => (val ? new Date(val) : undefined))
 		.nullish(),
 	estimatedDurationMin: z.number().optional(),
-	trainingPlanId: z.number(),
-	userId: z.number()
+	trainingPlanId: z.string().uuid(),
+	userId: z.string().uuid()
 });
 export type Workout = z.infer<typeof WorkoutSchema>;
 
 export const WorkoutItemSchema = z.object({
-	id: z.number(),
+	id: z.string().uuid(),
 	name: z.string(),
 	type: z.enum(['volumeBased', 'timeBased']),
 	sets: z.number(),
@@ -52,6 +52,6 @@ export const WorkoutItemSchema = z.object({
 		.datetime()
 		.transform(val => (val ? new Date(val) : undefined))
 		.nullish(),
-	workoutId: z.number()
+	workoutId: z.string().uuid()
 });
 export type WorkoutItem = z.infer<typeof WorkoutItemSchema>;

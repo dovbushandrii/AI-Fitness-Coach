@@ -2,8 +2,8 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 
 import { WorkoutCalendar } from '@/components/calendar/workout-calendar';
-import { getLoggedInUserId } from '@/modules/user/server';
 import { findWorkoutsByUserId } from '@/modules/training-plan/server';
+import { getLoggedInUserId } from '@/app/actions/auth';
 
 export const WorkoutCalendarWrapper = async () => {
 	const loggerInUserId = await getLoggedInUserId();

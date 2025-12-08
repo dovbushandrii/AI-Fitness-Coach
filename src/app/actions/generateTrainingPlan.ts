@@ -36,7 +36,10 @@ type GeneratedPlan = {
 
 const parseWorkoutsPerWeek = (value: string): number => parseInt(value);
 
-export const generateTrainingPlan = async (values: TrainingPlanFormValues) => {
+export const generateTrainingPlan = async (
+	values: TrainingPlanFormValues,
+	userId: string
+) => {
 	const workoutsPerWeek = parseWorkoutsPerWeek(values.workoutsPerWeek);
 
 	const systemPrompt = `
@@ -122,7 +125,7 @@ Name the plan and workouts realistically.
 			description: data.plan.description,
 			durationWeeks: data.plan.durationWeeks,
 			isActive: true,
-			userId: 1, //TODO: Replace with real user ID
+			userId,
 			startDate: new Date(),
 			endDate: undefined
 		});
