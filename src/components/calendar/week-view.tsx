@@ -67,7 +67,7 @@ export const WeekView = ({
 									daysWorkouts.map(workout => (
 										<Link
 											key={workout.id}
-											href={`/src/app/(app)/calendar/workout/${workout.id}`}
+											href={`/calendar/workout/${workout.id}`}
 											className="flex cursor-pointer items-center justify-between rounded-lg border border-slate-100 bg-white p-3 shadow-sm transition-shadow hover:border-indigo-200 hover:shadow-md"
 										>
 											<div className="flex items-center gap-3">
