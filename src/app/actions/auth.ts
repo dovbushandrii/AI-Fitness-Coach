@@ -84,3 +84,66 @@ export const getLoggedInUserId = async () => {
 
 	return session.user.id;
 };
+
+export const changePasswordAction = async (
+	formData: FormData
+): Promise<AuthResult> => {
+	const currentPassword = formData.get('currentPassword') as string | null;
+	const newPassword = formData.get('newPassword') as string | null;
+	const confirmPassword = formData.get('confirmPassword') as string | null;
+
+	if (!currentPassword || !newPassword || !confirmPassword) {
+		return { ok: false, message: 'All fields are required.' };
+	}
+
+	if (newPassword !== confirmPassword) {
+		return { ok: false, message: 'New passwords do not match.' };
+	}
+
+	console.log('CHANGE PASSWORD SERVER ACTION HIT');
+
+	try {
+		await auth.api.changePassword({
+			body: {
+				newPassword,
+				currentPassword
+			},
+			headers: await headers()
+		});
+
+		return { ok: true };
+	} catch (error) {
+		const message =
+			error instanceof Error
+				? error.message
+				: 'Failed to change password. Please try again.';
+		return { ok: false, message };
+	}
+};
+
+export const changeNameAction = async (
+	formData: FormData
+): Promise<AuthResult> => {
+	const name = formData.get('name') as string;
+
+	if (!name || name.trim().length === 0) {
+		return { ok: false, message: 'Name is required.' };
+	}
+
+	try {
+		await auth.api.updateUser({
+			body: {
+				name: name.trim()
+			},
+			headers: await headers()
+		});
+
+		return { ok: true };
+	} catch (error) {
+		const message =
+			error instanceof Error
+				? error.message
+				: 'Failed to change name. Please try again.';
+		return { ok: false, message };
+	}
+};

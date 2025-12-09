@@ -4,6 +4,8 @@ import { Button } from '@/components/ui';
 import { getLoggedInUser, signOutAction } from '@/app/actions/auth';
 import UserStatsSkeleton from '@/components/profile/user-stats-skeleton';
 import UserStatsSection from '@/components/profile/user-stats-section';
+import ChangePasswordDialog from '@/components/profile/change-password-dialog';
+import ChangeNameDialog from '@/components/profile/change-name-dialog';
 
 const ProfilePage = async () => {
 	const user = await getLoggedInUser();
@@ -29,10 +31,15 @@ const ProfilePage = async () => {
 						<h3 className="text-2xl font-semibold">{user.name}</h3>
 						<p className="opacity-90">{user.email}</p>
 
+						<div className="mt-4">
+							<ChangeNameDialog currentName={user.name ?? ''} />
+							<ChangePasswordDialog />
+						</div>
+
 						<form action={signOutAction}>
 							<Button
 								type="submit"
-								className="mt-6 w-full bg-white/20 text-white hover:bg-white/30"
+								className="mt-10 w-full bg-red-500 text-white hover:bg-white/30"
 							>
 								Sign Out
 							</Button>
