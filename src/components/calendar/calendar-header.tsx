@@ -71,7 +71,7 @@ export const CalendarHeader = ({
 					variant="ghost"
 					size="sm"
 					onClick={setToday}
-					className="ml-1 text-xs"
+					className="ml-1 bg-slate-100 text-slate-700"
 				>
 					Today
 				</Button>
