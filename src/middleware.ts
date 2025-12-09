@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-const AUTH_ROUTES = ['/auth/login', '/auth/signup'];
+import { auth } from '@/lib/auth';
 
-const SESSION_COOKIE_NAME = 'better-auth.session_token';
+const AUTH_ROUTES = ['/auth/login', '/auth/signup'];
 
 export const middleware = async (request: NextRequest) => {
 	const { pathname, searchParams } = request.nextUrl;
@@ -15,12 +15,21 @@ export const middleware = async (request: NextRequest) => {
 		return NextResponse.next();
 	}
 
-	const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME);
-	const isLoggedIn = Boolean(sessionCookie?.value);
+	let session: unknown;
+	try {
+		session = await auth.api.getSession({
+			headers: request.headers
+		});
+	} catch (err) {
+		console.error('Failed to get session in middleware:', err);
+		session = null;
+	}
+
+	const isLoggedIn = Boolean(session);
 	const isAuthRoute = AUTH_ROUTES.includes(pathname);
 
 	if (isLoggedIn && isAuthRoute) {
-		const redirectTo = searchParams.get('redirectTo') ?? '/profile';
+		const redirectTo = searchParams.get('redirectTo') ?? '/calendar';
 		return NextResponse.redirect(new URL(redirectTo, request.url));
 	}
 

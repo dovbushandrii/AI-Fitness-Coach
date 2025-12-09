@@ -14,7 +14,7 @@ const Page = async () => {
 
 	return (
 		<>
-			<div className="mb-6 flex items-center justify-between">
+			<div className="mb-6 flex items-center justify-between bg-white p-4 md:p-8">
 				<h1 className="text-3xl font-bold text-gray-900">My Training Plans</h1>
 				<Link href="/trainings/new" passHref>
 					<div className="inline-flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-[#7b52b9] px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#6a46a5]">
@@ -22,7 +22,7 @@ const Page = async () => {
 					</div>
 				</Link>
 			</div>
-			<TrainingsWrapper userId={userId}/>
+			<TrainingsWrapper userId={userId} />
 		</>
 	);
 };

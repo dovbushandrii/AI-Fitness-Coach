@@ -1,16 +1,16 @@
 import StatsBox from '@/components/trainings/stats-box';
-import {
-	findWorkoutsByUserId
-} from '@/modules/training-plan/server';
+import { findWorkoutsByUserId } from '@/modules/training-plan/server';
 
 const UserStatsSection = async ({ userId }: { userId: string }) => {
 	const workouts = await findWorkoutsByUserId(userId);
-	const plans = new Set(workouts.filter(w => !w.isCompleted).map(w => w.trainingPlanId));
+	const plans = new Set(
+		workouts.filter(w => !w.isCompleted).map(w => w.trainingPlanId)
+	);
 
 	const completed = workouts.filter(v => v.isCompleted);
 	const estDuration = completed
-		.map(value => value.estimatedDurationMin!)
-		.reduce((a, b) => a + b);
+		.map(value => value.estimatedDurationMin ?? 0)
+		.reduce((a, b) => a + b, 0);
 
 	const sorted = workouts
 		.filter(v => v.date < new Date())
@@ -18,7 +18,7 @@ const UserStatsSection = async ({ userId }: { userId: string }) => {
 	const streakArray = sorted.reverse().map(v => (v.isCompleted ? 1 : 0));
 	let streak = 0;
 	for (let i = 0; i < streakArray.length; i++) {
-		if (streakArray[i] == 0) break;
+		if (streakArray[i] === 0) break;
 		streak++;
 	}
 
