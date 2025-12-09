@@ -25,31 +25,26 @@ export const MonthView = ({
 	const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
 	const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
 
+	// Shorten names for mobile if needed, but CSS truncation is better
 	const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-	// Generate all days for the grid
 	const calendarDays = eachDayOfInterval({ start: startDate, end: endDate });
 
 	return (
 		<div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-			{/* Header Row */}
 			<div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
 				{weekDays.map(d => (
 					<div
 						key={d}
-						className="py-3 text-center text-xs font-semibold tracking-wider text-slate-500 uppercase"
+						className="py-2 text-center text-[10px] font-semibold tracking-wider text-slate-500 uppercase md:py-3 md:text-xs"
 					>
 						{d}
 					</div>
 				))}
 			</div>
 
-			{/* Calendar Grid */}
 			<div className="grid auto-rows-fr grid-cols-7">
 				{calendarDays.map(dayItem => {
-					// Filter workouts for this specific day
 					const daysWorkouts = workouts.filter(w => isSameDay(w.date, dayItem));
-
 					return (
 						<CalendarDay
 							key={dayItem.toISOString()}

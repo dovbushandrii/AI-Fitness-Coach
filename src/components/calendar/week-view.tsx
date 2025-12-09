@@ -34,31 +34,29 @@ export const WeekView = ({
 					return (
 						<div
 							key={dayItem.toISOString()}
-							className={`flex min-h-[100px] flex-col p-4 transition-colors hover:bg-slate-50/50 sm:flex-row ${isTodayDate ? 'bg-indigo-50/20' : ''}`}
+							className={`flex flex-col p-3 transition-colors hover:bg-slate-50/50 md:flex-row md:p-4 ${isTodayDate ? 'bg-indigo-50/20' : ''}`}
 						>
-							{/* Date Column */}
-							<div className="mb-3 flex w-full items-center gap-2 sm:mb-0 sm:w-32 sm:flex-col sm:items-start sm:gap-0">
+							<div className="mb-3 flex w-full items-center gap-3 md:mb-0 md:w-32 md:flex-col md:items-start md:gap-0">
 								<span
-									className={`text-xs font-bold tracking-wider uppercase ${isTodayDate ? 'text-indigo-600' : 'text-slate-400'}`}
+									className={`text-[10px] font-bold tracking-wider uppercase md:text-xs ${isTodayDate ? 'text-indigo-600' : 'text-slate-400'}`}
 								>
 									{format(dayItem, 'EEEE')}
 								</span>
 								<div className="flex items-baseline gap-1">
 									<span
-										className={`text-2xl font-light ${isTodayDate ? 'text-indigo-700' : 'text-slate-700'}`}
+										className={`text-xl font-light md:text-2xl ${isTodayDate ? 'text-indigo-700' : 'text-slate-700'}`}
 									>
 										{format(dayItem, 'd')}
 									</span>
-									<span className="hidden text-xs text-slate-400 sm:inline">
+									<span className="text-xs text-slate-400">
 										{format(dayItem, 'MMM')}
 									</span>
 								</div>
 							</div>
 
-							{/* Workouts Column */}
 							<div className="flex flex-1 flex-col gap-2">
 								{daysWorkouts.length === 0 ? (
-									<div className="flex h-full items-center">
+									<div className="flex h-full items-center py-2 md:py-0">
 										<span className="text-sm text-slate-400 italic">
 											No workouts scheduled
 										</span>
@@ -91,14 +89,13 @@ export const WeekView = ({
 															{workout.estimatedDurationMin} min
 														</Badge>
 														{workout.isCompleted && (
-															<span className="text-xs font-medium text-emerald-600">
+															<span className="text-[10px] font-medium text-emerald-600">
 																Completed
 															</span>
 														)}
 													</div>
 												</div>
 											</div>
-											{/* Navigation indicator or action could go here */}
 											<ChevronRight className="h-4 w-4 text-slate-300" />
 										</Link>
 									))

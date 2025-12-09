@@ -4,7 +4,6 @@ import { Poppins } from 'next/font/google';
 
 import { Providers } from '@/components/providers';
 import { Header } from '@/components/header';
-import { Navbar } from '@/components/navbar';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400'] });
 
@@ -13,13 +12,10 @@ const RootLayout = ({
 }: Readonly<{
 	children: React.ReactNode;
 }>) => (
-	<div
-		className={`flex min-h-screen flex-col bg-gray-200 ${poppins.className}`}
-	>
-		<div className="mx-auto max-w-[1200px] overflow-hidden rounded-[20px] bg-white shadow-[0_20px_60px_rgba(0,0,0,0.3)] xl:min-w-[1200px]">
+	<div className={`flex min-h-screen flex-col bg-white ${poppins.className}`}>
+		<div className="overflow-hidden xl:min-w-[1200px]">
 			<Header />
-			<Navbar />
-			<main className="container py-10">
+			<main className="container">
 				<Providers>{children}</Providers>
 			</main>
 		</div>
