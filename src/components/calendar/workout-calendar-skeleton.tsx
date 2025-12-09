@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const WorkoutCalendarSkeleton = () => (
 	<div className="flex animate-pulse flex-col gap-6">
 		<div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
