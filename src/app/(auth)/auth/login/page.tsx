@@ -9,7 +9,7 @@ import { LoginFormSkeleton } from '@/components/auth/login-form-skeleton';
 const LoginPage: React.FC = () => (
 	<div className="mx-auto max-w-md">
 		<div className="mb-8 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-600 p-6 text-center text-white shadow-lg">
-			<h2 className="text-2xl font-bold">Welcome Back</h2>
+			<h2 className="text-3xl font-bold">Welcome Back</h2>
 			<p className="text-sm opacity-80">
 				Log in to continue your fitness journey
 			</p>

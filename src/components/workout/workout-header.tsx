@@ -13,7 +13,7 @@ export const WorkoutHeader = ({ workout }: WorkoutHeaderProps) => (
 		<div className="flex items-center justify-between">
 			<h1 className="text-3xl font-bold text-slate-900">{workout.name}</h1>
 			<Badge variant={workout.isCompleted ? 'success' : 'secondary'}>
-				{workout.isCompleted ? 'Completed' : 'In Progress'}
+				{workout.isCompleted ? 'Completed' : 'Pending'}
 			</Badge>
 		</div>
 		<p className="text-lg text-slate-500">

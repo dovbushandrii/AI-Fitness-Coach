@@ -72,7 +72,7 @@ const NewTrainingPage = () => {
 
 	return (
 		<div className="mx-auto max-w-[800px] py-10">
-			<h2 className="mb-8 text-2xl font-bold">Create New Training Plan</h2>
+			<h2 className="mb-8 text-3xl font-bold">Create New Training Plan</h2>
 			<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 				<PlanNameInput register={register} errors={errors} />
 				<GoalSelector selectedGoal={watch('goal')} setValue={setValue} />

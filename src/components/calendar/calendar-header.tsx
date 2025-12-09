@@ -29,13 +29,10 @@ export const CalendarHeader = ({
 			<div className="rounded-lg bg-indigo-50 p-2">
 				<CalendarIcon className="h-6 w-6 text-indigo-600" />
 			</div>
-			<h1 className="text-xl font-bold text-slate-900 md:text-2xl">
-				Training Calendar
-			</h1>
+			<h1 className="text-3xl font-bold text-slate-900">Training Calendar</h1>
 		</div>
 
 		<div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-			{/* View Toggles */}
 			<div className="flex rounded-lg bg-slate-100 p-1">
 				<button
 					onClick={() => onViewChange('month')}

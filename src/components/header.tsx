@@ -84,7 +84,6 @@ export const Header = () => {
 						</ul>
 					</nav>
 
-					{/* Desktop CTA */}
 					<Link
 						href="/trainings/new"
 						className="flex items-center gap-2 rounded-full bg-white px-5 py-2 text-sm font-bold text-purple-600 shadow-md transition-transform hover:scale-105 hover:shadow-lg active:scale-95"

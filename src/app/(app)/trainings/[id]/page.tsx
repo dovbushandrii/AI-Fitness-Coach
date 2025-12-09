@@ -10,9 +10,11 @@ type TrainingPageProps = {
 const TrainingPage = async ({ params }: TrainingPageProps) => {
 	const { id } = await params;
 	return (
-		<Suspense fallback={<TrainingPageSkeleton />}>
-			<TrainingPageWrapper planId={id} />
-		</Suspense>
+		<div className="py-8">
+			<Suspense fallback={<TrainingPageSkeleton />}>
+				<TrainingPageWrapper planId={id} />
+			</Suspense>
+		</div>
 	);
 };
 

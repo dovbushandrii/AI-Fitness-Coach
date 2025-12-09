@@ -20,7 +20,7 @@ const ProfilePage = async () => {
 
 	return (
 		<div className="min-h-screen bg-white p-4 md:p-8">
-			<h2 className="mb-6 text-2xl font-bold">Profile & Statistics</h2>
+			<h2 className="mb-6 text-3xl font-bold">Profile & Statistics</h2>
 
 			<div className="grid grid-cols-1 gap-10 md:grid-cols-3">
 				<div className="md:col-span-1">
