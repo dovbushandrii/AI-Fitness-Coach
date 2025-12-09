@@ -8,7 +8,7 @@ type WorkoutListItemProps = {
 	workout: Workout;
 };
 
-export const WorkoutListItem: React.FC<WorkoutListItemProps> = ({
+export const WorkoutListItem: React.FC<WorkoutListItemProps> = async ({
 	workout
 }) => {
 	const { name, isCompleted } = workout;

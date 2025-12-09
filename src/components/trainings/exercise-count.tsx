@@ -1,8 +1,6 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { findWorkoutItemsByWorkoutId } from '@/modules/training-plan/server';
-import { type WorkoutItem } from '@/modules/training-plan/schema';
 
 type ExerciseProps = {
 	workoutId: string;
@@ -10,14 +8,9 @@ type ExerciseProps = {
 	date: Date;
 };
 
-const ExerciseCount = ({ workoutId, duration, date }: ExerciseProps) => {
-	const [items, setItems] = useState<WorkoutItem[]>();
+const ExerciseCount = async ({ workoutId, duration, date }: ExerciseProps) => {
+	const items = await findWorkoutItemsByWorkoutId(workoutId);
 
-	useEffect(() => {
-		findWorkoutItemsByWorkoutId(workoutId).then((items: WorkoutItem[]) =>
-			setItems(items)
-		);
-	}, [workoutId]);
 	return (
 		<p className="mt-0.5 text-sm text-gray-500">
 			{date.toDateString()} &bull; {items?.length}{' '}
