@@ -1,6 +1,7 @@
 import '../globals.css';
 
 import { Poppins } from 'next/font/google';
+import React from 'react';
 
 import { Providers } from '@/components/providers';
 import { Header } from '@/components/header';
