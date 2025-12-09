@@ -62,7 +62,7 @@ export const WorkoutDetail = ({
 			<BackToButton type={backTo} trainingId={workout.trainingPlanId} />
 			<WorkoutHeader workout={workout} />
 
-			<div className="grid gap-4">
+			<div className="grid gap-4 pb-12 md:pb-0">
 				{items.map(item => (
 					<WorkoutItemCard
 						key={item.id}
