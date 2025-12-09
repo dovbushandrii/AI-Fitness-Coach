@@ -7,8 +7,8 @@ import {
 } from '@/modules/training-plan/server';
 import { WeekSeparator } from '@/components/trainings/week-separator';
 import { WorkoutListItem } from '@/components/trainings/workout-list-item';
-import { differenceInCalendarDays } from 'date-fns';
 import { calculateFrequency } from '@/components/trainings/training-plan-card';
+import { TrainingPageSkeleton } from '@/components/trainings/training-page-skeleton';
 
 type TrainingPlanProps = {
 	planId: string;
@@ -17,27 +17,34 @@ type TrainingPlanProps = {
 const TrainingPageWrapper = ({ planId }: TrainingPlanProps) => {
 	const [plan, setPlan] = useState<TrainingPlan>();
 	const [workouts, setWorkouts] = useState<Workout[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-
-		findTrainingPlanById(planId)
-			.then((value: TrainingPlan | null) => {
-				if (value === null) {
-					console.log('No such training');
-					throw Error('No such training');
+		setIsLoading(true);
+		Promise.all([
+			findTrainingPlanById(planId),
+			findWorkoutsByTrainingPlanId(planId)
+		])
+			.then(([planValue, workoutsValue]) => {
+				if (planValue === null) {
+					throw new Error('No such training plan found');
 				}
-				setPlan(value);
-				console.log(value);
+				setPlan(planValue);
+				setWorkouts(workoutsValue || []);
 			})
 			.catch(error => {
-				throw Error(error);
+				console.error("Error fetching plan data:", error);
+				throw new Error(error.message || 'Failed to load plan details.');
+			})
+			.finally(() => {
+				setIsLoading(false);
 			});
 
-		findWorkoutsByTrainingPlanId(planId).then((value: Workout[]) => {
-			setWorkouts(value);
-		});
-	}, []);
+	}, [planId]);
 
+	if (isLoading) {
+		return <TrainingPageSkeleton />;
+	}
 
 	return (
 		<>
