@@ -1,5 +1,8 @@
 import { Button } from '@/components/ui';
 import { getLoggedInUser, signOutAction } from '@/app/actions/auth';
+import { Suspense } from 'react';
+import UserStatsSkeleton from '@/components/profile/user-stats-skeleton';
+import UserStatsSection from '@/components/profile/user-stats-section';
 
 const ProfilePage = async () => {
 	const user = await getLoggedInUser();
@@ -36,33 +39,9 @@ const ProfilePage = async () => {
 					</div>
 				</div>
 
-				<div className="space-y-10 md:col-span-2">
-					<div>
-						<h3 className="mb-4 text-xl font-semibold">Your Statistics</h3>
-						<div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-							<div className="rounded-2xl bg-gray-100 p-8 text-center shadow">
-								<div className="text-4xl font-bold text-indigo-500">24</div>
-								<div className="font-semibold text-gray-600">
-									Workouts Completed
-								</div>
-							</div>
-							<div className="rounded-2xl bg-gray-100 p-8 text-center shadow">
-								<div className="text-4xl font-bold text-indigo-500">8</div>
-								<div className="font-semibold text-gray-600">
-									Current Streak
-								</div>
-							</div>
-							<div className="rounded-2xl bg-gray-100 p-8 text-center shadow">
-								<div className="text-4xl font-bold text-indigo-500">156</div>
-								<div className="font-semibold text-gray-600">Total Hours</div>
-							</div>
-							<div className="rounded-2xl bg-gray-100 p-8 text-center shadow">
-								<div className="text-4xl font-bold text-indigo-500">3</div>
-								<div className="font-semibold text-gray-600">Active Plans</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<Suspense fallback={<UserStatsSkeleton />}>
+					<UserStatsSection userId={user.id} />
+				</Suspense>
 			</div>
 		</div>
 	);
