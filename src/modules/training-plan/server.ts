@@ -3,6 +3,7 @@
 import { randomUUID } from 'node:crypto';
 
 import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 import {
 	type TrainingPlan,
@@ -29,6 +30,7 @@ export const createTrainingPlan = async (
 		})
 		.returning();
 
+	revalidatePath(`/calendar`);
 	return {
 		...result,
 		isActive: Boolean(result.isActive),
@@ -166,6 +168,7 @@ export const updateWorkout = async (
 
 	if (!result) return null;
 
+	revalidatePath(`/calendar`);
 	return {
 		...result,
 		isCompleted: Boolean(result.isCompleted),
