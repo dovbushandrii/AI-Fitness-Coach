@@ -1,6 +1,7 @@
 'use server';
 
 import OpenAI from 'openai';
+import { revalidatePath } from 'next/cache';
 
 import {
 	createTrainingPlan,
@@ -155,6 +156,7 @@ Name workouts realistically.
 			}
 		}
 
+		revalidatePath(`/calendar`);
 		return {
 			success: true,
 			raw: content

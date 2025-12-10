@@ -30,7 +30,6 @@ export const createTrainingPlan = async (
 		})
 		.returning();
 
-	revalidatePath(`/calendar`);
 	return {
 		...result,
 		isActive: Boolean(result.isActive),
