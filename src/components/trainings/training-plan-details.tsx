@@ -6,7 +6,6 @@ import {
 } from '@/modules/training-plan/schema';
 import { WeekSeparator } from '@/components/trainings/week-separator';
 import { WorkoutListItem } from '@/components/trainings/workout-list-item';
-import { calculateFrequency } from '@/components/trainings/training-plan-card';
 import { WorkoutListItemSkeleton } from '@/components/trainings/workout-list-item-skeleton';
 
 type TrainingPlanDetailsProps = {
@@ -14,25 +13,52 @@ type TrainingPlanDetailsProps = {
 	workouts: Workout[];
 };
 
+const getWeekStart = (dateInput: string | Date) => {
+	const date = new Date(dateInput);
+	const day = date.getDay(); // 0 is Sunday
+	const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+	const monday = new Date(date.setDate(diff));
+	monday.setHours(0, 0, 0, 0);
+	return monday.getTime();
+};
+
 export const TrainingPlanDetails = async ({
 	plan,
 	workouts
 }: TrainingPlanDetailsProps) => {
-	const workoutsPerWeek = calculateFrequency(workouts);
+	const sortedWorkouts = [...workouts].sort(
+		(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+	);
+
+	let currentWeekNumber = 1;
 
 	return (
 		<>
 			<h2 className="mb-8 text-3xl font-bold">{plan.name}</h2>
 			<p className="mb-6 text-gray-700">{plan.description}</p>
 
-			{workouts.map((workout, index) => {
+			{sortedWorkouts.map((workout, index) => {
 				let separator = null;
 
-				if (workoutsPerWeek > 0 && index % workoutsPerWeek === 0) {
+				const currentMonday = getWeekStart(workout.date);
+
+				let isNewWeek = false;
+
+				if (index === 0) {
+					isNewWeek = true;
+				} else {
+					const prevMonday = getWeekStart(sortedWorkouts[index - 1].date);
+					if (currentMonday !== prevMonday) {
+						isNewWeek = true;
+						currentWeekNumber++;
+					}
+				}
+
+				if (isNewWeek) {
 					separator = (
 						<WeekSeparator
-							key={`separator-${index}`}
-							label={`Week ${Math.floor(index / workoutsPerWeek) + 1}`}
+							key={`separator-week-${currentWeekNumber}`}
+							label={`Week ${currentWeekNumber}`}
 						/>
 					);
 				}

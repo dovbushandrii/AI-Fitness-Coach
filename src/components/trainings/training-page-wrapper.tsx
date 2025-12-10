@@ -1,4 +1,5 @@
 import React from 'react';
+import { notFound } from 'next/navigation';
 
 import {
 	findTrainingPlanById,
@@ -17,11 +18,7 @@ export const TrainingPageWrapper = async ({ planId }: TrainingProps) => {
 	]);
 
 	if (!plan) {
-		return (
-			<div className="rounded-md bg-red-50 p-4 text-red-600">
-				Training plan not found.
-			</div>
-		);
+		notFound();
 	}
 
 	return <TrainingPlanDetails plan={plan} workouts={workouts || []} />;
